@@ -2,13 +2,11 @@
 
 ---
 
-## About me
+# About me
 
 ---
 
-## Outline
-
-Let's dig in to real-world GraphQL
+# Outline
 
 - Overview
 - Syntax
@@ -19,6 +17,16 @@ Let's dig in to real-world GraphQL
 ---
 
 # Overview
+
+---
+
+## Where does GraphQL fit in at the Church?
+
+- Going forward, the stack team is evaluating adding support for GraphQL
+- In this presentation, we'll look at some cool ideas that you can explore
+- GraphQL has the potential to replace REST + Redux
+- But don't worry, the stack team will continue to support REST + Redux
+- We hope to cover more about GraphQL during the React Bootcamp in July
 
 ---
 
