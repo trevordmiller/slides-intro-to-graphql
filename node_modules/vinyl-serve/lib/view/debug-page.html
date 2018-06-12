@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title><%= title.replace(/<[^>]*>/g, '') %></title>
+    <style><%= css %></style>
+  </head>
+  <body>
+    <header>
+      <h1><%= title %></h1>
+    </header>
+    <div>
+      <h2>Available paths (<%= Object.keys(assets).length %>)</h2>
+      <table>
+        <tr>
+          <th>Path</th>
+          <th>Last Modified</th>
+        </tr>
+        <% mimes.forEach(assets => { %>
+          <tr>
+            <th colspan="3"><%= assets[0].getMimeType() %> (<%= assets.length %>)</th>
+          </tr>
+          <% assets.forEach(function (asset) { %>
+            <tr>
+              <td title="<%= asset.vinyl.path %>">
+                <a href="<%= asset.getUrl() %>">
+                  <%= asset.getUrl() %>
+                </a>
+                <br />
+                <small class="gray"><%= asset.vinyl.path %></small>
+              </td>
+              <td title="<%= moment(asset.getMtime()).format('YYYY-MM-DD HH:mm:ss') %>">
+                <%= moment(asset.getMtime()).fromNow() %>
+                <br />
+                <span class="gray">
+                  <%= moment(asset.getMtime()).format() %>
+                </span>
+              </td>
+            </tr>
+          <% }) %>
+        <% }) %>
+      </table>
+    </div>
+    <footer>
+      <nav>
+        <ul>
+          <li>
+            The page is rendered by
+            <a href="<%= pkg.homepage %>"><%= pkg.name %></a>@<%= pkg.version %>
+          </li>
+        </ul>
+      </nav>
+    </footer>
+  </body>
+</html>

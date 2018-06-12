@@ -1,0 +1,24 @@
+{
+  "name": "slides-intro-to-graphql",
+  "version": "1.0.0",
+  "description": "Slides for Intro to GraphQL presentation",
+  "main": "index.js",
+  "scripts": {
+    "dev": "remarker",
+    "build": "remarker build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trevordmiller/slides-intro-to-graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trevordmiller/slides-intro-to-graphql/issues"
+  },
+  "homepage": "https://github.com/trevordmiller/slides-intro-to-graphql#readme",
+  "devDependencies": {
+    "remarker": "^1.8.1"
+  }
+}
