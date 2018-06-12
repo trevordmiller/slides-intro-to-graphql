@@ -20,11 +20,11 @@
 
 ---
 
-## Where does GraphQL fit in at the Church?
+## GraphQL at the Church
 
 - Going forward, the stack team is evaluating adding support for GraphQL
 - In this presentation, we'll look at some cool ideas that you can explore
-- We feel GraphQL + Apollo eliminates some of the complexity we see in REST + Redux without sacrificing most of the benefit
+- GraphQL + Apollo eliminates much of the complexity we see in REST + Redux without many sacrifices
 - But don't worry, the stack team will continue to support REST + Redux
 - We hope to cover more about GraphQL during the React Bootcamp in July
 
@@ -38,19 +38,15 @@ A query language for your API
 
 ---
 
-## Wait, what?
-
 ![What is GraphQL](src/assets/what-is-graphql.png)
 
 ---
-
-## What does it look like?
 
 ![What GraphQL looks like](src/assets/what-graphql-looks-like.gif)
 
 ---
 
-## "Ask for what you need, get exactly that"
+### "Ask for what you need, get exactly that"
 
 > "Send a GraphQL query to your API and get exactly what you need, nothing more and nothing less. GraphQL queries always return predictable results. Apps using GraphQL are fast and stable because they control the data they get, not the server."
 
@@ -61,6 +57,8 @@ A query language for your API
 ---
 
 ## Schema
+
+Describe your data with types
 
 ```graphql
 type Query {
@@ -82,7 +80,7 @@ input ReviewInput {
 
 ## Service
 
-Back-end wires up "resolver" functions to data. This example is in JavaScript for simplicity, but this can be in any language.
+Back-end wires up "resolver" functions for the schema
 
 ```javascript
 function Query_me(request) {
@@ -94,9 +92,13 @@ function User_name(user) {
 }
 ```
 
+This example is in JavaScript, but this can be in any back-end language
+
 ---
 
 ## Queries
+
+Ask for the data you want
 
 ```graphql
 {
@@ -106,7 +108,7 @@ function User_name(user) {
 }
 ```
 
-Outputs JSON:
+Gives you JSON:
 
 ```javascript
 {
@@ -120,6 +122,8 @@ Outputs JSON:
 
 ## Mutations
 
+Send what you data you want changed
+
 ```graphql
 mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
   createReview(episode: $ep, review: $review) {
@@ -128,6 +132,8 @@ mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
   }
 }
 ```
+
+Wire up variables:
 
 ```javascript
 {
@@ -139,16 +145,7 @@ mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
 }
 ```
 
-```javascript
-{
-  "data": {
-    "createReview": {
-      "stars": 5,
-      "commentary": "This is a great movie!"
-    }
-  }
-}
-```
+---
 
 # Examples
 
@@ -157,18 +154,24 @@ mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
 ## Vanilla JS
 
 ```javascript
-fetch("https://myapi.com", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: "{ me { name } }"
-  })
-})
-  .then(res => res.json())
-  .then(res => console.log(res.data));
+const request = async () => {
+  const response = await fetch("https://myapi.com", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: "{ me { name } }"
+    })
+  });
+
+  const json = await response.json();
+
+  console.log(json);
+};
+
+request();
 ```
 
-Outputs JSON:
+Gives you JSON:
 
 ```javascript
 {
@@ -180,17 +183,41 @@ Outputs JSON:
 
 ---
 
-## Libraries
+## What now?
 
-- https://graphql.org/code
+So far we've covered some vanilla GraphQL
+
+At this point you could use a state management tool like Redux to work with GraphQL JSON responses in the same way we've been doing with REST
 
 ---
 
-## Apollo
+## Libraries
 
-Handles a lot of problems for you:
+But because of the predictability of GraphQL's type system, there are libraries that can automate a lot of things for you
 
-- Local state management
+See https://graphql.org/code
+
+---
+
+### Apollo
+
+We suggest Apollo as the GraphQL library for your client because it...
+
+- works with React, React Native, Angular, Vue, Polymer, vanilla JS etc.
+- is easy to get started with
+- requires less lock-in than alternatives
+- is lightweight and performant
+- is currently the most popular option
+- has the best documentation
+- has modular middleware for many common data problems
+
+---
+
+### Solutions
+
+Apollo can handle a lot of data problems for you
+
+- Syncing local state with your data
 - Error state
 - Loading state
 - Mutation state changes
@@ -198,37 +225,32 @@ Handles a lot of problems for you:
 - Caching
 - Memoization
 - Optimistic UI
-- etc
-
-Apollo works with React, React Native, Angular, Vue, Polymer, vanilla JS etc.
+- etc.
 
 ---
 
 ```jsx
-import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
-const ALL_POSTS_QUERY = gql`
+const FEED = gql`
   query {
     posts {
       id
+      type
       title
       description
-      featuredImage
     }
   }
 `;
 
 const Feed = () => (
-  <Query query={ALL_POSTS_QUERY}>
+  <Query query={FEED}>
     {({ loading, error, data }) => {
-      if (error) {
-        return <Error />;
-      }
-
-      if (loading || !data) {
-        return <LoadingSpinner />;
-      }
+      if (loading) return <Loading />;
+      if (error) return <Error>{error.message}</Error>;
 
       return <AllPosts posts={data.posts} />;
     }}
@@ -240,23 +262,69 @@ export default Feed;
 
 ---
 
-## Adding Apollo to a new React app
+```jsx
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+
+const ADD_POST = gql`
+  mutation addPost($type: String!) {
+    addPost(type: $type) {
+      id
+      type
+    }
+  }
+`;
+
+const AddPost = () => {
+  let input;
+
+  return (
+    <Mutation mutation={ADD_POST}>
+      {(addPost, { data }) => (
+        <div>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              addPost({ variables: { type: input.value } });
+              input.value = "";
+            }}
+          >
+            <input
+              ref={node => {
+                input = node;
+              }}
+            />
+            <button type="submit">Add Post</button>
+          </form>
+        </div>
+      )}
+    </Mutation>
+  );
+};
+```
+
+---
+
+When the components mount, Apollo subscribes to the result of the query via the Apollo Client cache
+
+- First, Apollo tries to load the query result from the Apollo cache
+- If it’s not in there, Apollo sends the request to the server
+- Once the data comes back, Apollo normalizes it and stores it in the Apollo cache
+- Since the component subscribes to the result, it updates with the data reactively
+
+---
+
+So for most use cases, Apollo replaces Redux
+
+👋 Bye to action creators + actions + reducers + manual global state tree management
+
+---
+
+## Let's build an app using GraphQL + Apollo
 
 ---
 
 {apollo next.js example + apollo getting started pieces}
-
----
-
-## Adding Apollo to an existing React + Redux app
-
----
-
-{redux => apollo pieces}
-
----
-
-{apollo links middleware}
 
 ---
 
@@ -320,47 +388,35 @@ Evolve your API without versions
 
 ## Self-documenting
 
-GraphQL has simple type system
+GraphQL has a simple type system (schema) so you get automatic documentation
 
-- Automatic documentation
-- Can work in parallel between back-end/front-end once schema is decided
+This means that you can work in parallel between back-end/front-end once the schema is decided on
 
 ---
 
 ## Trade-offs of GraphQL + Apollo vs REST + Redux
 
+Similiar trade-offs to going from vanilla JS to React but for data
+
 ### Pros
 
-- Similiar trade-offs to going from vanilla JS to React but for data
-- GraphQL schema has led to many community tools: Apollo addons, Prisma, etc.
+- Better performance
+- Simpler data code
+- Community libraries for common problems
 
 ### Cons
 
-- Locked in to GraphQL
+- Locked in to GraphQL instead of REST
 - Most systems still in REST
 - Still a little new
 
 ---
 
-REST + Redux isn't going anywhere any time soon, don't stress
+# Summary
 
-But if you like this, feel free to give it a try!
-
----
-
-# Review
-
-## Declarative
-
-What data your component needs, not how to get it/store it/update it etc.
-
-## Self-contained
-
-Data requirements live where they are used
-
-## Community
-
-Can rely on libraries for common functionality
+- GraphQL + Apollo is pretty slick
+- Try it out if you'd like
+- But REST + Redux isn't going anywhere any time soon, so don't stress 😃
 
 ---
 
