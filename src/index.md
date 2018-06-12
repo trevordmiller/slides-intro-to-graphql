@@ -12,9 +12,9 @@ Let's dig in to real-world GraphQL
 
 - Overview
 - Syntax
-- Tools
 - Examples
-- Summary
+- Tools
+- General Info
 
 ---
 
@@ -52,27 +52,123 @@ A query language for your API
 
 ---
 
-# Tools
+## Schema
+
+```graphql
+type Query {
+  me: User
+}
+
+type User {
+  id: ID
+  name: String
+}
+
+input ReviewInput {
+  stars: Int!
+  commentary: String
+}
+```
 
 ---
 
-## GraphiQL
+## Service
+
+Back-end wires up "resolver" functions to data. This example is in JavaScript, but can be in Java, Node, Go, etc...
+
+```javascript
+function Query_me(request) {
+  return request.auth.user;
+}
+
+function User_name(user) {
+  return user.getName();
+}
+```
 
 ---
 
-## Browser Dev Tools
+## Queries
+
+```graphql
+{
+  me {
+    name
+  }
+}
+```
+
+Outputs JSON:
+
+```javascript
+{
+  "me": {
+    "name": "Luke Skywalker"
+  }
+}
+```
 
 ---
+
+## Mutations
+
+```graphql
+mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
+  createReview(episode: $ep, review: $review) {
+    stars
+    commentary
+  }
+}
+```
+
+```javascript
+{
+  "ep": "JEDI",
+  "review": {
+    "stars": 5,
+    "commentary": "This is a great movie!"
+  }
+}
+```
+
+```javascript
+{
+  "data": {
+    "createReview": {
+      "stars": 5,
+      "commentary": "This is a great movie!"
+    }
+  }
+}
+```
 
 # Examples
 
 ---
 
-## cURL
+## Vanilla JS
 
----
+```javascript
+fetch("https://myapi.com", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: "{ me { name } }"
+  })
+})
+  .then(res => res.json())
+  .then(res => console.log(res.data));
+```
 
-## Fetch
+Outputs JSON:
+
+```javascript
+{
+  "me": {
+    "name": "Luke Skywalker"
+  }
+}
+```
 
 ---
 
@@ -84,11 +180,26 @@ A query language for your API
 
 ## Apollo
 
-- Apollo works with React, React Native, Angular, Vue, Polymer, vanilla JS etc.
+Handles a lot of problems for you:
+
+- Local state management
+- Error state
+- Loading state
+- Mutation state changes
+- Data updates (subscriptions or polling)
+- Caching
+- Memoization
+- Optimistic UI
+- etc
+
+Apollo works with React, React Native, Angular, Vue, Polymer, vanilla JS etc.
 
 ---
 
 ```jsx
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+
 const ALL_POSTS_QUERY = gql`
   query {
     posts {
@@ -98,23 +209,25 @@ const ALL_POSTS_QUERY = gql`
       featuredImage
     }
   }
-`
+`;
 
 const Feed = () => (
   <Query query={ALL_POSTS_QUERY}>
     {({ loading, error, data }) => {
       if (error) {
-        return <Error />
+        return <Error />;
       }
 
       if (loading || !data) {
-        return <LoadingSpinner />
+        return <LoadingSpinner />;
       }
 
-      return <AllPosts posts={data.posts} />
+      return <AllPosts posts={data.posts} />;
     }}
   </Query>
-)
+);
+
+export default Feed;
 ```
 
 ---
@@ -135,7 +248,23 @@ const Feed = () => (
 
 ---
 
-# Summary
+{apollo links middleware}
+
+---
+
+# Tools
+
+---
+
+## GraphiQL
+
+---
+
+## Browser Dev Tools
+
+---
+
+# General Info
 
 ---
 

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/trevordmiller/slides-intro-to-graphql#readme",
   "devDependencies": {
+    "prettier": "^1.13.5",
     "remarker": "^1.8.1"
   }
 }
