@@ -23,9 +23,9 @@
 ## GraphQL at the Church
 
 - Going forward, the stack team is evaluating adding support for GraphQL
+- The starter will not include GraphQL by default
 - In this presentation, we'll look at some cool ideas that you can explore
-- GraphQL + Apollo eliminates much of the complexity we see in REST + Redux without many sacrifices
-- But don't worry, the stack team will continue to support REST + Redux
+- GraphQL eliminates much of the complexity we see in REST + Redux without many sacrifices
 - We hope to cover more about GraphQL during the React Bootcamp in July
 
 ---
@@ -53,6 +53,10 @@ A query language for your API
 ---
 
 # Syntax
+
+---
+
+Right now let's go through some syntax. Later we'll cover some full working examples in an app.
 
 ---
 
@@ -277,27 +281,16 @@ const ADD_POST = gql`
 `;
 
 const AddPost = () => {
-  let input;
-
   return (
     <Mutation mutation={ADD_POST}>
-      {(addPost, { data }) => (
-        <div>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              addPost({ variables: { type: input.value } });
-              input.value = "";
-            }}
-          >
-            <input
-              ref={node => {
-                input = node;
-              }}
-            />
-            <button type="submit">Add Post</button>
-          </form>
-        </div>
+      {addPost => (
+        <button
+          onClick={addPost({
+            variables: { type: "affiliate" }
+          })}
+        >
+          Add Affiliate Post
+        </button>
       )}
     </Mutation>
   );
@@ -315,9 +308,7 @@ When the components mount, Apollo subscribes to the result of the query via the 
 
 ---
 
-So for most use cases, Apollo replaces Redux
-
-👋 Bye to action creators + actions + reducers + manual global state tree management
+So for many use cases, if you have a GraphQL back-end, Apollo can potentially replace Redux (action creators + actions + reducers + manual global state tree management)
 
 ---
 
@@ -415,25 +406,6 @@ Write **what** data you want instead of **how**
 
 ---
 
-![REST vs GraphQL](src/assets/rest-vs-graphql.png)
-
----
-
-## Self-contained
-
-- Data pieces live where they are used
-- Like when we moved from `html/`, `css/`, `javascript/` to `components/`
-
----
-
-## Versioned
-
-Evolve your API without versions
-
-> "Add new fields and types to your GraphQL API without impacting existing queries. Aging fields can be deprecated and hidden from tools. By using a single evolving version, GraphQL APIs give apps continuous access to new features and encourage cleaner, more maintainable server code."
-
----
-
 ## Self-documenting
 
 GraphQL has a simple type system (schema) so you get automatic documentation
@@ -444,7 +416,7 @@ This means that you can work in parallel between back-end/front-end once the sch
 
 ## Trade-offs of GraphQL + Apollo vs REST + Redux
 
-Similiar trade-offs to going from vanilla JS to React but for data
+Similiar trade-offs to going from vanilla JavaScript to a JavaScript framework but for data
 
 ### Pros
 
