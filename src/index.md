@@ -210,6 +210,7 @@ We suggest Apollo as the GraphQL library for your client because it...
 - is currently the most popular option
 - has the best documentation
 - has modular middleware for many common data problems
+- has escape hatches for doing advanced things and taking full control
 
 ---
 
@@ -320,11 +321,58 @@ So for most use cases, Apollo replaces Redux
 
 ---
 
-## Let's build an app using GraphQL + Apollo
+## Apollo set up in a React app
 
 ---
 
-{apollo next.js example + apollo getting started pieces}
+### Install dependencies
+
+```shell
+npm install apollo-boost react-apollo graphql-tag graphql
+```
+
+- `apollo-boost`: Package containing everything you need to set up Apollo Client
+- `react-apollo`: View layer integration for React
+- `graphql-tag`: Necessary for parsing your GraphQL queries
+- `graphql`: Also parses your GraphQL queries
+
+---
+
+### Add a wrapper around the root
+
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+
+const client = new ApolloClient({
+  uri: "https://myapi.com"
+});
+
+const App = () => <ApolloProvider client={client}>Your app</ApolloProvider>;
+
+render(<App />, document.getElementById("root"));
+```
+
+---
+
+### Add server-side rendering
+
+You can rehydrate the client using the initial state passed from the server
+
+```html
+<script>
+  window.__APOLLO_STATE__ = client.extract();
+</script>
+```
+
+```javascript
+const client = new ApolloClient({
+  cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+  link
+});
+```
 
 ---
 
@@ -425,6 +473,7 @@ Similiar trade-offs to going from vanilla JS to React but for data
 - July React Bootcamp: https://reactbootcampjuly.eventbrite.com
 - GraphQL docs: https://graphql.org
 - Apollo docs: https://www.apollographql.com
+- Next.js docs with Apollo: https://github.com/zeit/next.js/tree/canary/examples/with-apollo
 
 ---
 
