@@ -38,10 +38,10 @@ A query language for your API
 
 # GraphQL is a shift from imperative to declarative code
 
-GraphQL is about writing **what** data you want instead of **how** to get it/store it/etc.
-
-- Declarative: what
 - Imperative: how
+- Declarative: what
+
+GraphQL is about writing **what** data you want instead of **how** to get it/store it/etc.
 
 ---
 
@@ -150,7 +150,7 @@ Gives you JSON:
 
 ---
 
-## What now?
+## Those are the vanilla pieces
 
 So far we've covered some vanilla GraphQL with vanilla JavaScript
 
@@ -361,17 +361,17 @@ This means that you can work in parallel between back-end/front-end once the sch
 
 ---
 
-# Trade-offs of GraphQL + Apollo vs REST + Redux
+### Trade-offs of GraphQL + Apollo vs REST + Redux
 
 Similiar trade-offs to going from vanilla JavaScript to a JavaScript framework but for data
 
-### Pros
+#### Pros of GraphQL
 
 - Better performance
 - Simpler code for data
 - Community libraries for common problems
 
-### Cons
+#### Cons of GraphQL
 
 - Locked in to GraphQL instead of REST
 - Most systems are still in REST
@@ -392,8 +392,6 @@ Similiar trade-offs to going from vanilla JavaScript to a JavaScript framework b
 - July React Bootcamp: https://reactbootcampjuly.eventbrite.com
 - GraphQL docs: https://graphql.org
 - Apollo docs: https://www.apollographql.com
-- Next.js docs with Apollo: https://github.com/zeit/next.js/tree/canary/examples/with-apollo
-- Try out GraphQL syntax: https://graphql.github.io/swapi-graphql
 
 ---
 
