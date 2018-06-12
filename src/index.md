@@ -366,9 +366,9 @@ Can rely on libraries for common functionality
 
 # Where can I learn more?
 
-- July React Bootcamp
-- https://graphql.org
-- https://www.apollographql.com
+- July React Bootcamp: https://reactbootcampjuly.eventbrite.com
+- GraphQL docs: https://graphql.org
+- Apollo docs: https://www.apollographql.com
 
 ---
 
