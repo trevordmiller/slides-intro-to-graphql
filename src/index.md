@@ -322,18 +322,6 @@ const client = new ApolloClient({
 
 ---
 
-# Tools
-
----
-
-## GraphiQL
-
----
-
-## Browser Dev Tools
-
----
-
 # GraphQL Stability
 
 - Initially developed by Facebook since 2012
