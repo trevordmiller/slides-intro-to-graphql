@@ -1,0 +1,16 @@
+html {
+  font-family: Helvetica, sans-serif;
+  color: #333333;
+}
+
+h2,
+h3,
+h4 {
+  color: #666666;
+}
+
+img,
+video {
+  width: 100%;
+  max-width: 100%;
+}

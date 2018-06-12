@@ -1,0 +1,13 @@
+title: 'Intro to GraphQL'
+source: src/index.md
+assets: ['src/assets']
+dest: build
+port: 3000
+livereload: true
+livereloadPort: 3001
+css: ''
+cssFiles: ['src/index.css']
+script: ''
+scriptFiles: []
+remarkConfig: {}
+remarkPath: 'node_modules/remarker/vendor/remark.js'
