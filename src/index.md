@@ -2,25 +2,11 @@
 
 ---
 
-# About me
+# A bit about me
 
 ---
 
-# Outline
-
-- Overview
-- Syntax
-- Examples
-- Tools
-- General Info
-
----
-
-# Overview
-
----
-
-## GraphQL at the Church
+# GraphQL at the Church
 
 - Going forward, the stack team is evaluating adding support for GraphQL
 - The starter will not include GraphQL by default
@@ -30,13 +16,9 @@
 
 ---
 
-## What is GraphQL?
+# What is GraphQL?
 
 A query language for your API
-
-> "GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools."
-
----
 
 ![What is GraphQL](src/assets/what-is-graphql.png)
 
@@ -46,17 +28,26 @@ A query language for your API
 
 ---
 
-### "Ask for what you need, get exactly that"
+## "Ask for what you need, get exactly that"
 
 > "Send a GraphQL query to your API and get exactly what you need, nothing more and nothing less. GraphQL queries always return predictable results. Apps using GraphQL are fast and stable because they control the data they get, not the server."
 
 ---
 
-# Syntax
+# GraphQL is a shift from imperative to declarative code
+
+GraphQL is about writing **what** data you want instead of **how** to get it/store it/etc.
+
+- Declarative: what
+- Imperative: how
 
 ---
 
-Right now let's go through some syntax. Later we'll cover some full working examples in an app.
+# GraphQL Syntax
+
+Next let's see basic GraphQL syntax
+
+Later I'll show full working examples in an app
 
 ---
 
@@ -73,18 +64,13 @@ type User {
   id: ID
   name: String
 }
-
-input ReviewInput {
-  stars: Int!
-  commentary: String
-}
 ```
 
 ---
 
-## Service
+## GraphQL Service
 
-Back-end wires up "resolver" functions for the schema
+Back-end wires up "resolver" functions for the schema to your database
 
 ```javascript
 function Query_me(request) {
@@ -100,7 +86,7 @@ This example is in JavaScript, but this can be in any back-end language
 
 ---
 
-## Queries
+## GraphQL Queries
 
 Ask for the data you want
 
@@ -124,34 +110,9 @@ Gives you JSON:
 
 ---
 
-## Mutations
-
-Send what you data you want changed
-
-```graphql
-mutation CreateReview($ep: Episode!, $review: ReviewInput!) {
-  createReview(episode: $ep, review: $review) {
-    stars
-    commentary
-  }
-}
-```
-
-Wire up variables:
-
-```javascript
-{
-  "ep": "JEDI",
-  "review": {
-    "stars": 5,
-    "commentary": "This is a great movie!"
-  }
-}
-```
-
----
-
 # Examples
+
+Next let's see GraphQL used in JavaScript
 
 ---
 
@@ -189,7 +150,7 @@ Gives you JSON:
 
 ## What now?
 
-So far we've covered some vanilla GraphQL
+So far we've covered some vanilla GraphQL with vanilla JavaScript
 
 At this point you could use a state management tool like Redux to work with GraphQL JSON responses in the same way we've been doing with REST
 
@@ -199,13 +160,15 @@ At this point you could use a state management tool like Redux to work with Grap
 
 But because of the predictability of GraphQL's type system, there are libraries that can automate a lot of things for you
 
-See https://graphql.org/code
+From https://graphql.org/code
+
+![graphql.org screenshot](src/assets/graphql-org-screenshot.png)
 
 ---
 
 ### Apollo
 
-We suggest Apollo as the GraphQL library for your client because it...
+We suggest Apollo as the GraphQL library for your client
 
 - works with React, React Native, Angular, Vue, Polymer, vanilla JS etc.
 - is easy to get started with
@@ -239,6 +202,7 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import Loading from "components/Loading";
 import Error from "components/Error";
+import AllBlogPosts from "components/AllBlogPost";
 
 const FEED = gql`
   query {
@@ -257,7 +221,7 @@ const Feed = () => (
       if (loading) return <Loading />;
       if (error) return <Error>{error.message}</Error>;
 
-      return <AllPosts posts={data.posts} />;
+      return <AllBlogPosts posts={data.posts} />;
     }}
   </Query>
 );
@@ -272,24 +236,24 @@ import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
 const ADD_POST = gql`
-  mutation addPost($type: String!) {
-    addPost(type: $type) {
+  mutation addBlogPost($type: String!) {
+    addBlogPost(type: $type) {
       id
       type
     }
   }
 `;
 
-const AddPost = () => {
+const AddBlogPost = () => {
   return (
     <Mutation mutation={ADD_POST}>
-      {addPost => (
+      {addBlogPost => (
         <button
-          onClick={addPost({
+          onClick={addBlogPost({
             variables: { type: "affiliate" }
           })}
         >
-          Add Affiliate Post
+          Create new affiliate blog Post
         </button>
       )}
     </Mutation>
@@ -308,28 +272,17 @@ When the components mount, Apollo subscribes to the result of the query via the 
 
 ---
 
-So for many use cases, if you have a GraphQL back-end, Apollo can potentially replace Redux (action creators + actions + reducers + manual global state tree management)
+So for many use cases, if you have a GraphQL back-end, Apollo can potentially replace Redux
+
+- Action creators
+- Actions
+- Reducers
+- Thunks
+- Manual global state tree management
 
 ---
 
 ## Apollo set up in a React app
-
----
-
-### Install dependencies
-
-```shell
-npm install apollo-boost react-apollo graphql-tag graphql
-```
-
-- `apollo-boost`: Package containing everything you need to set up Apollo Client
-- `react-apollo`: View layer integration for React
-- `graphql-tag`: Necessary for parsing your GraphQL queries
-- `graphql`: Also parses your GraphQL queries
-
----
-
-### Add a wrapper around the root
 
 ```jsx
 import React from "react";
@@ -379,11 +332,7 @@ const client = new ApolloClient({
 
 ---
 
-# General Info
-
----
-
-## Stability
+# GraphQL Stability
 
 - Initially developed by Facebook since 2012
 - Made public and open source in 2015
@@ -392,7 +341,7 @@ const client = new ApolloClient({
 
 ---
 
-## Performance
+# GraphQL Performance
 
 Get many resources in a single request
 
@@ -400,13 +349,7 @@ Get many resources in a single request
 
 ---
 
-## Declarative
-
-Write **what** data you want instead of **how**
-
----
-
-## Self-documenting
+# GraphQL is self-documenting
 
 GraphQL has a simple type system (schema) so you get automatic documentation
 
@@ -414,21 +357,21 @@ This means that you can work in parallel between back-end/front-end once the sch
 
 ---
 
-## Trade-offs of GraphQL + Apollo vs REST + Redux
+# Trade-offs of GraphQL + Apollo vs REST + Redux
 
 Similiar trade-offs to going from vanilla JavaScript to a JavaScript framework but for data
 
 ### Pros
 
 - Better performance
-- Simpler data code
+- Simpler code for data
 - Community libraries for common problems
 
 ### Cons
 
 - Locked in to GraphQL instead of REST
-- Most systems still in REST
-- Still a little new
+- Most systems are still in REST
+- GraphQL is still a little new
 
 ---
 
