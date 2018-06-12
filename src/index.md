@@ -278,7 +278,6 @@ export default Feed;
 
 ## Stability
 
-- GraphQL is officially supported now 🎉
 - Initially developed by Facebook since 2012
 - Made public and open source in 2015
 - Now stable and used by companies like Facebook, Twitter, Pinterest, GitHub, The New York Times, etc.
