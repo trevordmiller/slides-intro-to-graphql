@@ -364,8 +364,9 @@ Can rely on libraries for common functionality
 
 ---
 
-# Where to now?
+# Where can I learn more?
 
+- July React Bootcamp
 - https://graphql.org
 - https://www.apollographql.com
 
