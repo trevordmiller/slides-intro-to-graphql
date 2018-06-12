@@ -24,7 +24,7 @@
 
 - Going forward, the stack team is evaluating adding support for GraphQL
 - In this presentation, we'll look at some cool ideas that you can explore
-- GraphQL has the potential to replace REST + Redux
+- We feel GraphQL + Apollo eliminates some of the complexity we see in REST + Redux without sacrificing most of the benefit
 - But don't worry, the stack team will continue to support REST + Redux
 - We hope to cover more about GraphQL during the React Bootcamp in July
 
@@ -82,7 +82,7 @@ input ReviewInput {
 
 ## Service
 
-Back-end wires up "resolver" functions to data. This example is in JavaScript, but can be in Java, Node, Go, etc...
+Back-end wires up "resolver" functions to data. This example is in JavaScript for simplicity, but this can be in any language.
 
 ```javascript
 function Query_me(request) {
@@ -281,7 +281,7 @@ export default Feed;
 - Initially developed by Facebook since 2012
 - Made public and open source in 2015
 - Now stable and used by companies like Facebook, Twitter, Pinterest, GitHub, The New York Times, etc.
-- Works with any database + back-end + front-end with minimal lock-in
+- Works with any database + back-end + front-end
 
 ---
 
@@ -327,22 +327,22 @@ GraphQL has simple type system
 
 ---
 
-## Trade-offs of GraphQL + Apollo vs REST
+## Trade-offs of GraphQL + Apollo vs REST + Redux
 
 ### Pros
 
 - Similiar trade-offs to going from vanilla JS to React but for data
-- Opens up lots of community tools: Apollo addons, Prisma, etc.
+- GraphQL schema has led to many community tools: Apollo addons, Prisma, etc.
 
 ### Cons
 
 - Locked in to GraphQL
-- Still a little new
 - Most systems still in REST
+- Still a little new
 
 ---
 
-REST isn't going anywhere any time soon, don't stress
+REST + Redux isn't going anywhere any time soon, don't stress
 
 But if you like this, feel free to give it a try!
 
