@@ -389,6 +389,7 @@ Similiar trade-offs to going from vanilla JavaScript to a JavaScript framework b
 - GraphQL docs: https://graphql.org
 - Apollo docs: https://www.apollographql.com
 - Next.js docs with Apollo: https://github.com/zeit/next.js/tree/canary/examples/with-apollo
+- Try out GraphQL syntax: https://graphql.github.io/swapi-graphql
 
 ---
 
