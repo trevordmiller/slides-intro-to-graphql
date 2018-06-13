@@ -9,5 +9,14 @@ css: ''
 cssFiles: ['src/index.css']
 script: ''
 scriptFiles: []
-remarkConfig: {}
+remarkConfig: {
+  ratio: '16:9',
+  navigation: {
+    scroll: false,
+    touch: false,
+    click: false
+  },
+  highlightLanguage: 'javascript',
+  highlightStyle: 'github',
+}
 remarkPath: 'node_modules/remarker/vendor/remark.js'
