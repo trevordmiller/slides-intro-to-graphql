@@ -7,4 +7,4 @@
 
 ## Integrations
 
-- Hosting: GitHub Pages via `gh-pages` branch
+- Hosting: [GitHub Pages from `docs` folder](https://github.com/trevordmiller/slides-intro-to-graphql/settings)
